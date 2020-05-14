@@ -1,3 +1,3 @@
 # ProjecteIoT
 
-<p align="center"><img src ="https://github.com/pycom/pycom-libraries/blob/master/img/logo.png" width="300"></p>
+El projecte consisteix en la creació d'una aplicació amb QT que permet el seguiment de contenidors de mercaderies fent servir tecnologia Lora.
