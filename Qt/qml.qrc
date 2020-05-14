@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>main.qml</file>
+        <file>Primer.qml</file>
+        <file>PrimerForm.ui.qml</file>
+        <file>SegonForm.qml</file>
+        <file>SegonFormForm.ui.qml</file>
+        <file>Tercer.qml</file>
+        <file>TercerForm.ui.qml</file>
+    </qresource>
+</RCC>
