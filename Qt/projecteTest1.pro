@@ -18,7 +18,6 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         contenidor.cpp \
         main.cpp \
-        utilitat.cpp
 
 RESOURCES += qml.qrc \
     imatges.qrc
@@ -36,7 +35,6 @@ else: unix:!android: target.path = /opt/$${TARGET}/bin
 
 HEADERS += \
     contenidor.h \
-    utilitat.h
 android: include(/home/abel/Android/Sdk/android_openssl/openssl.pri)
 
 contains(ANDROID_TARGET_ARCH,armeabi-v7a) {
