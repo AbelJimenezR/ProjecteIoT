@@ -8,14 +8,17 @@ import QtQuick.Layouts 1.3
 ApplicationWindow {
 
     visible: true
-    width: 640
-    height: 480
+    width: 400
+    height: 600
     title: "CONTENIDORS"
     minimumWidth: 295
     minimumHeight: 400
 
     Contenidor {
         id: contenidorBE
+        onListModelContenidorsChange: {
+            myStackView.push(quartForm)
+        }
     }
 
     header: ToolBar {
@@ -61,6 +64,11 @@ ApplicationWindow {
         Component {
             id: tercerForm
             Tercer {}
+        }
+        Component {
+
+            id: quartForm
+            QuartForm {}
         }
     }
 }

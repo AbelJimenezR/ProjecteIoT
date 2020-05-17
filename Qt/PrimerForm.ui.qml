@@ -6,6 +6,7 @@ import QtQuick.Controls.Styles 1.2
 Item {
     property alias buttonNou: newCont
     property alias btnConnecta: connecta
+    property alias view: view
 
     ColumnLayout {
 
@@ -74,46 +75,6 @@ Item {
             Layout.fillWidth: true
             cacheBuffer: 100
             spacing: 10
-
-            delegate: Rectangle {
-
-                width: parent.width
-                radius: 5
-                anchors.horizontalCenter: parent.horizontalCenter
-                height: 40
-                color: Qt.lighter("#6bdce4", 0.8)
-                Text {
-                    id: model
-                    text: modelData
-                    font.pointSize: 12
-                    color: "#FFFFFF"
-                    anchors.left: parent.left
-                    anchors.leftMargin: 20
-                    anchors.verticalCenter: parent.verticalCenter
-                }
-                MouseArea {
-                    id: mouse_area1
-                    z: 1
-                    hoverEnabled: true
-                    anchors.fill: parent
-                    // @disable-check M223
-                    onClicked: {
-                        // @disable-check M222
-                        contenidorBE.setIdContenidor(model.text)
-                        // @disable-check M222
-                        contenidorBE.subscribe("repContenidor")
-                        // @disable-check M222
-                        contenidorBE.subscribe("repContenidorInici")
-                        // @disable-check M222
-                        contenidorBE.repContenidor(model.text)
-                        // @disable-check M222
-                        //contenidorBE.repContenidor(model.text)
-
-                        // @disable-check M222
-                        myStackView.push(segonForm)
-                    }
-                }
-            }
         }
     }
 }

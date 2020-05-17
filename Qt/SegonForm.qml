@@ -2,6 +2,13 @@ import QtQuick 2.4
 import QtPositioning 5.6
 
 SegonFormForm {
+
+    demanaContenidorHistoric.onClicked: {
+        contenidorBE.subscribe("repContenidorHistoric")
+        contenidorBE.demanaContenidorHistoric("CT001")
+
+    }
+
     producte.onTextEdited: {
         console.log(contenidorBE.producte)
         console.log(producte.text)

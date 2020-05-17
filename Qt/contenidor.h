@@ -4,6 +4,7 @@
 #include <QMqttClient>
 #include <QObject>
 #include <QString>
+#include <QStringListModel>
 
 
 class Contenidor : public QObject
@@ -16,6 +17,7 @@ class Contenidor : public QObject
     Q_PROPERTY(QString lon READ lon WRITE setLon NOTIFY lonChanged)
     Q_PROPERTY(QString temperatura READ temperatura WRITE setTemperatura NOTIFY temperaturaChange)
     Q_PROPERTY(QString data READ data WRITE setData NOTIFY dataChange)
+    Q_PROPERTY(QStringList listModelContenidors READ listModelContenidors WRITE setListModelContenidors NOTIFY listModelContenidorsChange)
 
 
 public:
@@ -29,6 +31,9 @@ public:
 
     QStringList listModel();
     void setListModel(const QStringList &listmodel);
+
+    QStringList listModelContenidors();
+    void setListModelContenidors(const QStringList &listModelContenidors);
 
     QString lat();
     void setLat(const QString &lat);
@@ -46,17 +51,18 @@ public:
     void connecta();
 
     Q_INVOKABLE void afegirContenidor(QString idCont,QString prod);
-    Q_INVOKABLE bool repContenidors();
+    Q_INVOKABLE bool demanaLlistaContenidors();
     Q_INVOKABLE bool subscribe(QString text);
     Q_INVOKABLE bool comprovaContenidor(QString ct);
-    Q_INVOKABLE bool repContenidor(QString cnt);
-
+    Q_INVOKABLE bool demanaContenidor(QString cnt);
     Q_INVOKABLE bool editaContenidor(QString idCont, QString prod, QString temp, QString lat, QString lon);
+    Q_INVOKABLE bool demanaContenidorHistoric(QString cnt);
 
 signals:
     void idContenidorChange();
     void producteChange();
     void listModelChange();
+    void listModelContenidorsChange();
     void latChanged();
     void lonChanged();
     void temperaturaChange();
@@ -71,7 +77,7 @@ private:
     QString m_temperatura;
     QString m_lat="41.385313";
     QString m_lon="2.143071";
-
+    QStringList m_listModelContenidors;
 
 };
 

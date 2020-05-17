@@ -15,6 +15,7 @@ Item {
     property alias producte: producte
     property alias lat: lat
     property alias lon: lon
+    property alias demanaContenidorHistoric: button1
 
     Layout.minimumWidth: 200
 
@@ -27,6 +28,11 @@ Item {
         anchors.fill: parent
 
         Rectangle {
+            Button {
+                id: button1
+                text: qsTr("Button")
+
+            }
             id: rectangle
             y: 10
             color: "#6bdce4"

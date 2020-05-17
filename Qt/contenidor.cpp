@@ -20,7 +20,7 @@ Contenidor::Contenidor(QObject *parent) :
         QJsonDocument temp = QJsonDocument::fromJson(message.toUtf8());
         QJsonArray jArray = temp.array();
 
-        qDebug()<<topic;
+        //qDebug()<<topic;
         if(topic.name()=="repContenidors"){
             m_listModel.clear();
             foreach (const QJsonValue & value, jArray) {
@@ -38,7 +38,6 @@ Contenidor::Contenidor(QObject *parent) :
             QStringList pa = temp[0]["time"].toString().split("T");
             QStringList pc = pa[1].split(".");
 
-
             //setData(temp[0]["time"].toString());
             setData(pa[0]+" / "+pc[0]);
             setLat(temp[0]["lat"].toString());
@@ -47,7 +46,7 @@ Contenidor::Contenidor(QObject *parent) :
             setTemperatura(temp[0]["temperatura"].toString());
             setProducte(temp[0]["product"].toString());
 
-            qDebug()<<temp[0]["time"];
+            //qDebug()<<temp[0]["time"];
          //   }
         }
 
@@ -60,9 +59,26 @@ Contenidor::Contenidor(QObject *parent) :
                     setTemperatura(temp["temp"].toString());
                     setProducte(temp[0]["product"].toString());
 
-                    qDebug()<<m_idContenidor;
+                   // qDebug()<<m_idContenidor;
                 }
         }
+
+        if(topic.name()=="repContenidorHistoric"){
+            m_listModelContenidors.clear();
+            foreach (const QJsonValue & value, jArray) {
+                QJsonObject obj = value.toObject();
+                QJsonDocument doc(obj);
+                m_listModelContenidors.append(obj["lat"].toString()+","+obj["lon"].toString()+
+                        ","+obj["temperatura"].toString()+","+obj["id"].toString());
+
+
+            }
+            emit listModelContenidorsChange();
+
+            qDebug()<<"holi";
+
+        }
+
 
     });
 
@@ -101,10 +117,8 @@ bool Contenidor::editaContenidor(QString idCont,QString prod,QString temp, QStri
     q["lon"]=lon;
     q["temperatura"]=temp;
 
-
     QJsonDocument doc(q);
     QByteArray bytes = doc.toJson();
-
 
     QString topic = "nouContenidor";
     if (m_client->publish(topic, bytes  ) == -1){
@@ -115,10 +129,9 @@ bool Contenidor::editaContenidor(QString idCont,QString prod,QString temp, QStri
         return true;
     }
 
-
 }
 
-bool Contenidor::repContenidors(){
+bool Contenidor::demanaLlistaContenidors(){
     QString topic = "demanaInici";
     if (m_client->publish(topic, "a") == -1){
         qDebug()<<"Error de publicació";
@@ -127,10 +140,9 @@ bool Contenidor::repContenidors(){
         qDebug()<<"Publicat correctament";
         return true;
     }
-
 }
 
-bool Contenidor::repContenidor(QString cnt){
+bool Contenidor::demanaContenidor(QString cnt){
     QString topic = "demanaContenidor";
     qDebug()<<"demanat";
     if (m_client->publish(topic, cnt.toUtf8()) == -1){
@@ -143,6 +155,28 @@ bool Contenidor::repContenidor(QString cnt){
 
 }
 
+bool Contenidor::demanaContenidorHistoric(QString cnt){
+    QString topic = "demanaContenidorHistoric";
+    QString m = "1";
+    QJsonObject q;
+
+    q["id"]=cnt;
+    q["transport"]=m;
+
+    QJsonDocument doc(q);
+    QByteArray bytes = doc.toJson();
+
+
+    qDebug()<<"demanat";
+    if (m_client->publish(topic, bytes) == -1){
+        qDebug()<<"Error de publicació";
+        return false;
+    }else{
+        qDebug()<<"Publicat correctament";
+        return true;
+    }
+
+}
 
 
 
@@ -187,7 +221,20 @@ void Contenidor::setListModel(const QStringList &listModel)
         return;
 
     m_listModel = listModel;
-    emit producteChange();
+    emit listModelChange();
+}
+
+QStringList Contenidor::listModelContenidors()
+{
+    return m_listModelContenidors;
+}
+
+void Contenidor::setListModelContenidors(const QStringList &listModelContenidors)
+{
+    if (listModelContenidors == m_listModelContenidors)
+        return;
+    m_listModelContenidors = listModelContenidors;
+    emit listModelContenidorsChange();
 }
 
 

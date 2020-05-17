@@ -7,5 +7,7 @@
         <file>SegonFormForm.ui.qml</file>
         <file>Tercer.qml</file>
         <file>TercerForm.ui.qml</file>
+        <file>QuartForm.qml</file>
+        <file>QuartFormForm.ui.qml</file>
     </qresource>
 </RCC>
