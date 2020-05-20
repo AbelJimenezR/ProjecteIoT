@@ -3,7 +3,6 @@ import io.qt.examples.contenidor 1.0
 
 TercerForm {
 
-    anchors.fill: parent
     btnCrea.onClicked: {
         if (!contenidorBE.comprovaContenidor(tfIdCont.text.toUpperCase())) {
             if (tfProducte.text != "") {

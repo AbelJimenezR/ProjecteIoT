@@ -9,5 +9,7 @@
         <file>TercerForm.ui.qml</file>
         <file>QuartForm.qml</file>
         <file>QuartFormForm.ui.qml</file>
+        <file>CinqueForm.qml</file>
+        <file>CinqueFormForm.ui.qml</file>
     </qresource>
 </RCC>

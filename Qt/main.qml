@@ -6,9 +6,8 @@ import io.qt.examples.contenidor 1.0
 import QtQuick.Layouts 1.3
 
 ApplicationWindow {
-
     visible: true
-    width: 400
+    width: 800
     height: 600
     title: "CONTENIDORS"
     minimumWidth: 295
@@ -17,11 +16,13 @@ ApplicationWindow {
     Contenidor {
         id: contenidorBE
         onListModelContenidorsChange: {
-            myStackView.push(quartForm)
+
+            // myStackView.push(quartForm)
         }
     }
 
     header: ToolBar {
+        id: tb
         RowLayout {
             anchors.fill: parent
 
@@ -31,6 +32,7 @@ ApplicationWindow {
             }
 
             Label {
+                id: lb
                 text: "CONTENIDORS"
                 elide: Label.ElideRight
                 horizontalAlignment: Qt.AlignHCenter
@@ -49,11 +51,13 @@ ApplicationWindow {
     }
 
     StackView {
+
         id: myStackView
         anchors.fill: parent
         initialItem: Component {
-            id: primerForm
-            Primer {}
+
+            id: cinqueForm
+            CinqueForm {}
         }
 
         Component {
@@ -65,10 +69,17 @@ ApplicationWindow {
             id: tercerForm
             Tercer {}
         }
+
         Component {
 
             id: quartForm
             QuartForm {}
+        }
+
+        Component {
+
+            id: primerForm
+            Primer {}
         }
     }
 }

@@ -11,21 +11,18 @@ Contenidor::Contenidor(QObject *parent) :
 
 {
     m_client = new QMqttClient(this);
-    m_client->setHostname("broker.hivemq.com");
+    m_client->setHostname("192.168.1.34");
     m_client->setPort(1883);
 
     connect(m_client, &QMqttClient::messageReceived, this, [this](const QString &message, const QMqttTopicName &topic) {
-        //QStringList listModel;
 
         QJsonDocument temp = QJsonDocument::fromJson(message.toUtf8());
         QJsonArray jArray = temp.array();
 
-        //qDebug()<<topic;
         if(topic.name()=="repContenidors"){
             m_listModel.clear();
             foreach (const QJsonValue & value, jArray) {
                 QJsonObject obj = value.toObject();
-                qDebug()<<obj["distinct"].toString();
                 m_listModel.append(obj["distinct"].toString());
 
             }
@@ -35,32 +32,31 @@ Contenidor::Contenidor(QObject *parent) :
         if(topic.name()=="repContenidorInici"){
             //if(temp[0]["id"].toString()==m_idContenidor){
 
-            QStringList pa = temp[0]["time"].toString().split("T");
-            QStringList pc = pa[1].split(".");
-
-            //setData(temp[0]["time"].toString());
-            setData(pa[0]+" / "+pc[0]);
-            setLat(temp[0]["lat"].toString());
-            setLon(temp[0]["lon"].toString());
+            setData(temp[0]["time"].toString());
+            setLat(temp[0]["latitude"].toString());
+            setLon(temp[0]["longitude"].toString());
             setIdContenidor(temp[0]["id"].toString());
-            setTemperatura(temp[0]["temperatura"].toString());
+            setTemperatura(temp[0]["temperature"].toString());
             setProducte(temp[0]["product"].toString());
+            setIdTransport(temp[0]["transport"].toString());
 
-            //qDebug()<<temp[0]["time"];
-         //   }
+            //   }
         }
 
         if(topic.name()=="repContenidor"){
             if(temp["id"].toString()==m_idContenidor){
 
-                    setLat(temp["lat"].toString());
-                    setLon(temp["lon"].toString());
-                    setIdContenidor(temp["id"].toString());
-                    setTemperatura(temp["temp"].toString());
-                    setProducte(temp[0]["product"].toString());
+                setLat(temp["latitude"].toString());
+                setLon(temp["longitude"].toString());
+                setIdContenidor(temp["id"].toString());
+                setTemperatura(temp["temperature"].toString());
+                setProducte(temp["product"].toString());
+                setData(temp["time"].toString());
+                setIdTransport(temp["transport"].toString());
 
-                   // qDebug()<<m_idContenidor;
-                }
+                qDebug()<<temp["transport"].toString();
+                emit listModelChange();
+            }
         }
 
         if(topic.name()=="repContenidorHistoric"){
@@ -68,14 +64,13 @@ Contenidor::Contenidor(QObject *parent) :
             foreach (const QJsonValue & value, jArray) {
                 QJsonObject obj = value.toObject();
                 QJsonDocument doc(obj);
-                m_listModelContenidors.append(obj["lat"].toString()+","+obj["lon"].toString()+
-                        ","+obj["temperatura"].toString()+","+obj["id"].toString());
-
-
+                m_listModelContenidors.append(obj["latitude"].toString()+","+obj["longitude"].toString()+
+                        ","+obj["temperature"].toString()+","+obj["id"].toString()+","+obj["transport"].toString()+
+                        ","+obj["product"].toString()+","+obj["time"].toString());
             }
+
             emit listModelContenidorsChange();
 
-            qDebug()<<"holi";
 
         }
 
@@ -108,14 +103,15 @@ void Contenidor::afegirContenidor(QString idCont,QString prod)
     emit listModelChange();
 }
 
-bool Contenidor::editaContenidor(QString idCont,QString prod,QString temp, QString lat, QString lon)
+bool Contenidor::editaContenidor(QString idCont,QString prod,QString temp, QString lat, QString lon,QString transport)
 {
     QJsonObject q;
     q["id"]=idCont;
     q["product"]=prod;
-    q["lat"]=lat;
-    q["lon"]=lon;
-    q["temperatura"]=temp;
+    q["latitude"]=lat;
+    q["longitude"]=lon;
+    q["temperature"]=temp;
+    q["transport"]=transport;
 
     QJsonDocument doc(q);
     QByteArray bytes = doc.toJson();
@@ -155,13 +151,13 @@ bool Contenidor::demanaContenidor(QString cnt){
 
 }
 
-bool Contenidor::demanaContenidorHistoric(QString cnt){
+bool Contenidor::demanaContenidorHistoric(QString cnt,QString tr){
     QString topic = "demanaContenidorHistoric";
     QString m = "1";
     QJsonObject q;
 
     q["id"]=cnt;
-    q["transport"]=m;
+    q["transport"]=tr;
 
     QJsonDocument doc(q);
     QByteArray bytes = doc.toJson();
@@ -292,6 +288,18 @@ void Contenidor::setData(const QString &data)
     emit dataChange();
 }
 
+QString Contenidor::idTransport()
+{
+    return m_idTransport;
+}
+
+void Contenidor::setIdTransport(const QString &idTransport)
+{
+    if (idTransport == m_idTransport)
+        return;
+    m_idTransport = idTransport;
+    emit idTransportChange();
+}
 
 
 bool Contenidor::subscribe(QString text)
@@ -333,3 +341,5 @@ bool Contenidor::comprovaContenidor(QString ct){
     }
     return false;
 }
+
+

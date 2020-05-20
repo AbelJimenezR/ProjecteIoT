@@ -4,67 +4,14 @@ import QtQuick.Controls 1.2
 import QtQuick.Controls.Styles 1.2
 
 Item {
-    property alias buttonNou: newCont
-    property alias btnConnecta: connecta
-    property alias view: view
 
+    //property alias buttonNou: newCont
+    //property alias btnConnecta: connecta
+    property alias view: view
     ColumnLayout {
 
         id: mainLayout
         anchors.fill: parent
-
-        //anchors.margins: margin
-        Rectangle {
-            color: "#6bdce4"
-            Layout.fillWidth: true
-            height: 40
-            z: 2
-            RowLayout {
-                id: rowLayout
-                anchors.fill: parent
-                anchors.centerIn: parent
-                TextField {
-                    placeholderText: "Type here.."
-                    Layout.fillWidth: true
-                    font.pointSize: 12
-                    style: TextFieldStyle {
-                        textColor: "black"
-                        background: Rectangle {
-                            radius: 5
-                            implicitWidth: 100
-                            implicitHeight: 30
-                            border.color: "#6bdce4"
-                            border.width: 1
-                        }
-                    }
-
-
-                    /* onTextChanged: {
- filterModel.setFilterString(text);
- }*/
-                }
-
-                Button {
-                    id: newCont
-                    text: "New"
-                    enabled: false
-
-
-                    /*onCheckedChanged:{
- filterModel.setSortOrder(checked)
- }*/
-                }
-                Button {
-                    id: connecta
-                    text: "Connecta"
-
-
-                    /*onCheckedChanged:{
- filterModel.setSortOrder(checked)
- }*/
-                }
-            }
-        }
 
         ListView {
 

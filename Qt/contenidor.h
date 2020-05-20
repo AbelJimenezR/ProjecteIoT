@@ -18,6 +18,7 @@ class Contenidor : public QObject
     Q_PROPERTY(QString temperatura READ temperatura WRITE setTemperatura NOTIFY temperaturaChange)
     Q_PROPERTY(QString data READ data WRITE setData NOTIFY dataChange)
     Q_PROPERTY(QStringList listModelContenidors READ listModelContenidors WRITE setListModelContenidors NOTIFY listModelContenidorsChange)
+    Q_PROPERTY(QString idTransport READ idTransport WRITE setIdTransport NOTIFY idTransportChange)
 
 
 public:
@@ -45,7 +46,10 @@ public:
     void setTemperatura(const QString &temperatura);
 
     QString data();
-    void setData(const QString &data);
+    Q_INVOKABLE void setData(const QString &data);
+
+    QString idTransport();
+    void setIdTransport(const QString &idTransport);
 
     void unsubscribe(QString text);
     void connecta();
@@ -55,8 +59,8 @@ public:
     Q_INVOKABLE bool subscribe(QString text);
     Q_INVOKABLE bool comprovaContenidor(QString ct);
     Q_INVOKABLE bool demanaContenidor(QString cnt);
-    Q_INVOKABLE bool editaContenidor(QString idCont, QString prod, QString temp, QString lat, QString lon);
-    Q_INVOKABLE bool demanaContenidorHistoric(QString cnt);
+    Q_INVOKABLE bool editaContenidor(QString idCont, QString prod, QString temp, QString lat, QString lon, QString transport);
+    Q_INVOKABLE bool demanaContenidorHistoric(QString cnt, QString tr);
 
 signals:
     void idContenidorChange();
@@ -67,6 +71,8 @@ signals:
     void lonChanged();
     void temperaturaChange();
     void dataChange();
+    void contBuit();
+    void idTransportChange();
 
 private:
     QString m_data;
@@ -78,6 +84,7 @@ private:
     QString m_lat="41.385313";
     QString m_lon="2.143071";
     QStringList m_listModelContenidors;
+    QString m_idTransport;
 
 };
 

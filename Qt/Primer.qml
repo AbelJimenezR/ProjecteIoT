@@ -1,12 +1,16 @@
 import QtQuick 2.4
 import io.qt.examples.contenidor 1.0
+import QtQuick 2.13
+import QtQuick.Controls 2.13
+import QtLocation 5.6
+import QtPositioning 5.6
+import QtQuick.Layouts 1.3
 
 PrimerForm {
 
     view {
 
         delegate: Rectangle {
-
             width: parent.width
             radius: 5
             anchors.horizontalCenter: parent.horizontalCenter
@@ -36,21 +40,6 @@ PrimerForm {
                     myStackView.push(segonForm)
                 }
             }
-        }
-    }
-
-    anchors.fill: parent
-
-    buttonNou.onClicked: {
-        myStackView.push(tercerForm)
-    }
-
-    btnConnecta.onClicked: {
-        if (contenidorBE.subscribe("repContenidors")
-                && contenidorBE.demanaLlistaContenidors()) {
-            ledConnect.color = '#00ff00'
-            btnConnecta.enabled = false
-            buttonNou.enabled = true
         }
     }
 }
