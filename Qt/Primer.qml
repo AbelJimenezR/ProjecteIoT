@@ -8,6 +8,8 @@ import QtQuick.Layouts 1.3
 
 PrimerForm {
 
+    btnNouContenidor.onClicked: myStackView.push(tercerForm)
+
     view {
 
         delegate: Rectangle {

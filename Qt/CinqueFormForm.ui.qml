@@ -7,6 +7,8 @@ import io.qt.examples.contenidor 1.0
 Item {
 
     property alias btnConnecta: connecta
+    property alias tfUser: tFUser
+    property alias tfPass: tFPass
     Rectangle {
         id: rectangle
         color: "#80f2f2"
@@ -15,8 +17,9 @@ Item {
         Button {
             id: connecta
             x: 270
-            y: 220
+            y: 344
             text: qsTr("Connecta")
+            anchors.horizontalCenterOffset: 0
             anchors.horizontalCenter: parent.horizontalCenter
         }
 
@@ -30,12 +33,46 @@ Item {
             anchors.horizontalCenter: parent.horizontalCenter
             font.pixelSize: 35
         }
+
+        Text {
+            id: element1
+            x: 308
+            y: 139
+            text: qsTr("USUARI")
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.pixelSize: 12
+        }
+
+        TextField {
+            id: tFUser
+            x: 220
+            y: 166
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
+
+        Text {
+            id: element2
+            x: 308
+            y: 233
+            text: qsTr("CONTRASENYA")
+            anchors.horizontalCenterOffset: 0
+            anchors.horizontalCenter: parent.horizontalCenter
+            font.pixelSize: 12
+        }
+
+        TextField {
+            id: tFPass
+            x: 220
+            y: 263
+            anchors.horizontalCenterOffset: 0
+            anchors.horizontalCenter: parent.horizontalCenter
+        }
     }
 }
 
 /*##^##
 Designer {
-    D{i:0;autoSize:true;height:480;width:640}D{i:1;anchors_height:200;anchors_width:200;anchors_x:114;anchors_y:158}
+    D{i:0;autoSize:true;height:480;width:640}
 }
 ##^##*/
 

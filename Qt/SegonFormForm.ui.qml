@@ -181,7 +181,7 @@ Item {
                     visible: false
                     Text {
                         color: "#e70f0f"
-                        text: "Contenidor no registrat"
+                        text: "Contenidor no localitzat"
                         font.pointSize: 16
                         anchors.centerIn: parent
                     }
@@ -192,7 +192,7 @@ Item {
             id: popup
             x: 100
             y: 100
-            width: 200
+            width: 230
             height: 200
             modal: true
             focus: true

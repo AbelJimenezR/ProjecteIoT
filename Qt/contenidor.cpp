@@ -14,6 +14,7 @@ Contenidor::Contenidor(QObject *parent) :
     m_client->setHostname("192.168.1.34");
     m_client->setPort(1883);
 
+
     connect(m_client, &QMqttClient::messageReceived, this, [this](const QString &message, const QMqttTopicName &topic) {
 
         QJsonDocument temp = QJsonDocument::fromJson(message.toUtf8());
@@ -86,6 +87,7 @@ void Contenidor::afegirContenidor(QString idCont,QString prod)
     QJsonObject q;
     q["id"]=idCont;
     q["product"]=prod;
+    q["transport"]="1";
 
     QJsonDocument doc(q);
     QByteArray bytes = doc.toJson();
@@ -302,6 +304,7 @@ void Contenidor::setIdTransport(const QString &idTransport)
 }
 
 
+
 bool Contenidor::subscribe(QString text)
 {
     auto subscription = m_client->subscribe(text);
@@ -317,13 +320,15 @@ bool Contenidor::subscribe(QString text)
 
 }
 
-void Contenidor::unsubscribe(QString text){
+void Contenidor::unsubscribe(){
 
-    m_client->unsubscribe(text);
+    m_client->disconnectFromHost();
 
 }
 
 void Contenidor::connecta(){
+
+
     if (m_client->state() == QMqttClient::Disconnected) {
         qDebug()<<"disconnected";
         m_client->connectToHost();
@@ -340,6 +345,14 @@ bool Contenidor::comprovaContenidor(QString ct){
             return true;
     }
     return false;
+}
+
+void Contenidor::setCredentials(QString username, QString password){
+    m_client->setPassword(password);
+    m_client->setUsername(username);
+
+
+
 }
 
 

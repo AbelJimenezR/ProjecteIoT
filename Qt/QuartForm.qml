@@ -56,7 +56,9 @@ QuartFormForm {
                 source: "qrc:/imatges/marker.png"
                 MouseArea {
                     anchors.fill: parent
-                    onClicked: popup(idCont, temp, transport, product, time)
+                    onClicked: {
+                        popup(idCont, temp, transport, product, time)
+                    }
                 }
             }
         }
@@ -137,6 +139,7 @@ QuartFormForm {
     }
 
     Component.onCompleted: {
-        searchModel.clear()
+
+        //searchModel.clear()
     }
 }

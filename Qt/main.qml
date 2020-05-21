@@ -4,12 +4,13 @@ import QtLocation 5.6
 import QtPositioning 5.6
 import io.qt.examples.contenidor 1.0
 import QtQuick.Layouts 1.3
+import Connexio 1.0
 
 ApplicationWindow {
     visible: true
     width: 800
     height: 600
-    title: "CONTENIDORS"
+    title: "CONTRACK"
     minimumWidth: 295
     minimumHeight: 400
 
@@ -21,6 +22,10 @@ ApplicationWindow {
         }
     }
 
+    Connexio {
+        id: connexioBE
+    }
+
     header: ToolBar {
         id: tb
         RowLayout {
@@ -28,7 +33,11 @@ ApplicationWindow {
 
             ToolButton {
                 text: qsTr("<<")
-                onClicked: myStackView.pop()
+                onClicked: {
+
+                    myStackView.pop()
+                    contenidorBE.unsubscribe()
+                }
             }
 
             Label {
