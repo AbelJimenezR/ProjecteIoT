@@ -6,7 +6,6 @@ SegonFormForm {
     ptNouIdTransport.text: "Nou transport: " + (parseInt(
                                                     contenidorBE.idTransport) + 1)
 
-    // anchors.fill: parent
     demanaContenidorHistoric.onClicked: {
         contenidorBE.subscribe("repContenidorHistoric")
         contenidorBE.demanaContenidorHistoric(idCont.text, idTransport.text)

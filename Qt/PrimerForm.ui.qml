@@ -7,8 +7,8 @@ import QtQuick.Window 2.13
 Item {
 
     property alias btnNouContenidor: btnNouContenidor
-    //property alias btnConnecta: connecta
     property alias view: view
+
     ColumnLayout {
 
         id: mainLayout

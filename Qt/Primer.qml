@@ -37,8 +37,6 @@ PrimerForm {
                     contenidorBE.subscribe("repContenidor")
                     contenidorBE.subscribe("repContenidorInici")
                     contenidorBE.demanaContenidor(model.text)
-
-                    //contenidorBE.repContenidor(model.text)
                     myStackView.push(segonForm)
                 }
             }

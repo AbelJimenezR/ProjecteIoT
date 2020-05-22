@@ -137,9 +137,4 @@ QuartFormForm {
 
         return t
     }
-
-    Component.onCompleted: {
-
-        //searchModel.clear()
-    }
 }

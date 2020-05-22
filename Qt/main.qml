@@ -4,7 +4,6 @@ import QtLocation 5.6
 import QtPositioning 5.6
 import io.qt.examples.contenidor 1.0
 import QtQuick.Layouts 1.3
-import Connexio 1.0
 
 ApplicationWindow {
     visible: true
@@ -16,14 +15,6 @@ ApplicationWindow {
 
     Contenidor {
         id: contenidorBE
-        onListModelContenidorsChange: {
-
-            // myStackView.push(quartForm)
-        }
-    }
-
-    Connexio {
-        id: connexioBE
     }
 
     header: ToolBar {
@@ -34,7 +25,6 @@ ApplicationWindow {
             ToolButton {
                 text: qsTr("<<")
                 onClicked: {
-
                     myStackView.pop()
                     contenidorBE.unsubscribe()
                 }
@@ -86,7 +76,6 @@ ApplicationWindow {
         }
 
         Component {
-
             id: primerForm
             Primer {}
         }

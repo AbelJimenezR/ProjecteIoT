@@ -1,5 +1,4 @@
 #include "contenidor.h"
-#include "connexio.h"
 #include <QGuiApplication>
 #include <QQmlApplicationEngine>
 #include <QQmlContext>
@@ -12,12 +11,8 @@ int main(int argc, char *argv[])
     QGuiApplication app(argc, argv);
 
     Contenidor c;
-    //c.connecta();
-
-
 
     qmlRegisterType<Contenidor>("io.qt.examples.contenidor", 1, 0, "Contenidor");
-    qmlRegisterType<connexio>("Connexio", 1, 0, "Connexio");
 
     QQmlApplicationEngine engine;
     const QUrl url(QStringLiteral("qrc:/main.qml"));
@@ -27,8 +22,6 @@ int main(int argc, char *argv[])
             QCoreApplication::exit(-1);
     }, Qt::QueuedConnection);
 
-    /*QQmlContext* context = engine.rootContext();
-    context->setContextProperty("listModel",QVariant::fromValue(c.listModel()));*/
     engine.load(url);
 
     return app.exec();
