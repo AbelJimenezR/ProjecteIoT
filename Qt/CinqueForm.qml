@@ -8,7 +8,7 @@ CinqueFormForm {
         contenidorBE.setCredentials(tfUser.text, tfPass.text)
         contenidorBE.connecta()
         if (contenidorBE.subscribe("repContenidors")
-                && contenidorBE.demanaLlistaContenidors()) {
+                && contenidorBE.demanaInici()) {
 
             myStackView.push(primerForm)
             ledConnect.color = '#00ff00'

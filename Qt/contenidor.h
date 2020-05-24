@@ -54,10 +54,10 @@ public:
     Q_INVOKABLE void unsubscribe();
     Q_INVOKABLE void connecta();
     Q_INVOKABLE void afegirContenidor(QString idCont,QString prod);
-    Q_INVOKABLE bool demanaLlistaContenidors();
+    Q_INVOKABLE bool demanaInici();
     Q_INVOKABLE bool subscribe(QString text);
     Q_INVOKABLE bool comprovaContenidor(QString ct);
-    Q_INVOKABLE bool demanaContenidor(QString cnt);
+    Q_INVOKABLE bool demanaContenidorInici(QString cnt);
     Q_INVOKABLE bool editaContenidor(QString idCont, QString prod, QString temp, QString lat, QString lon, QString transport);
     Q_INVOKABLE bool demanaContenidorHistoric(QString cnt, QString tr);
     Q_INVOKABLE void setCredentials(QString username, QString password);

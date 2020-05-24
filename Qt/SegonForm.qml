@@ -25,6 +25,8 @@ SegonFormForm {
         }
     }
 
+    pBtnDesfes.onClicked: popup.close()
+
     map {
 
         center: {

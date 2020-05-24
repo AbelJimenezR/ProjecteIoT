@@ -68,6 +68,25 @@ QuartFormForm {
         path: f()
     }
 
+    //AFEGEIX COORDENADES AL MAP POLY LINE
+    function f() {
+        var s = mpl.path
+        s = []
+        for (var x = 0; x < contenidorBE.listModelContenidors.length; x++) {
+            var t = contenidorBE.listModelContenidors[x].split(",")
+
+            s.push({
+                       "latitude": t[0],
+                       "longitude": t[1]
+                   })
+            if (s.isEmpty) {
+                console.log("w")
+            }
+        }
+
+        return s
+    }
+
     function c() {
         if (contenidorBE.listModelContenidors.length == 0) {
             alert.visible = true
@@ -99,25 +118,6 @@ QuartFormForm {
         x.push(t[4])
 
         return x
-    }
-
-    //AFEGEIX COORDENADES AL MAP POLY LINE
-    function f() {
-        var s = mpl.path
-        s = []
-        for (var x = 0; x < contenidorBE.listModelContenidors.length; x++) {
-            var t = contenidorBE.listModelContenidors[x].split(",")
-
-            s.push({
-                       "latitude": t[0],
-                       "longitude": t[1]
-                   })
-            if (s.isEmpty) {
-                console.log("w")
-            }
-        }
-
-        return s
     }
 
     function popup(idCont, temp, transport, product, time) {

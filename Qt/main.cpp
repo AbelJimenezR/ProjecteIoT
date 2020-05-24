@@ -10,7 +10,6 @@ int main(int argc, char *argv[])
     QCoreApplication::setAttribute(Qt::AA_EnableHighDpiScaling);
     QGuiApplication app(argc, argv);
 
-    Contenidor c;
 
     qmlRegisterType<Contenidor>("io.qt.examples.contenidor", 1, 0, "Contenidor");
 

@@ -19,6 +19,7 @@ Item {
     property alias pBtnNouTransport: pBtnNouTransport
     property alias ptfNouProducte: ptfNouProducte
     property alias popup: popup
+    property alias pBtnDesfes: pBtnDesfes
 
     GridLayout {
         anchors.fill: parent
@@ -214,10 +215,15 @@ Item {
                 Text {
                     id: ptNouIdTransport
                 }
-                Button {
-                    id: pBtnNouTransport
-                    text: "Nou"
-                    y: 50
+                RowLayout {
+                    Button {
+                        id: pBtnNouTransport
+                        text: "Nou"
+                    }
+                    Button {
+                        id: pBtnDesfes
+                        text: "Torna"
+                    }
                 }
             }
         }

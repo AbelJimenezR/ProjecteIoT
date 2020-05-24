@@ -25,13 +25,11 @@ Contenidor::Contenidor(QObject *parent) :
             foreach (const QJsonValue & value, jArray) {
                 QJsonObject obj = value.toObject();
                 m_listModel.append(obj["distinct"].toString());
-
             }
             emit listModelChange();
-
         }
+
         if(topic.name()=="repContenidorInici"){
-            //if(temp[0]["id"].toString()==m_idContenidor){
 
             setData(temp[0]["time"].toString());
             setLat(temp[0]["latitude"].toString());
@@ -39,14 +37,11 @@ Contenidor::Contenidor(QObject *parent) :
             setIdContenidor(temp[0]["id"].toString());
             setTemperatura(temp[0]["temperature"].toString());
             setProducte(temp[0]["product"].toString());
-            setIdTransport(temp[0]["transport"].toString());
-
-            //   }
+            setIdTransport(temp[0]["transport"].toString()); 
         }
 
         if(topic.name()=="repContenidor"){
             if(temp["id"].toString()==m_idContenidor){
-
                 setLat(temp["latitude"].toString());
                 setLon(temp["longitude"].toString());
                 setIdContenidor(temp["id"].toString());
@@ -54,8 +49,6 @@ Contenidor::Contenidor(QObject *parent) :
                 setProducte(temp["product"].toString());
                 setData(temp["time"].toString());
                 setIdTransport(temp["transport"].toString());
-
-                qDebug()<<temp["transport"].toString();
                 emit listModelChange();
             }
         }
@@ -129,7 +122,7 @@ bool Contenidor::editaContenidor(QString idCont,QString prod,QString temp, QStri
 
 }
 
-bool Contenidor::demanaLlistaContenidors(){
+bool Contenidor::demanaInici(){
     QString topic = "demanaInici";
     if (m_client->publish(topic, "a") == -1){
         qDebug()<<"Error de publicació";
@@ -140,8 +133,8 @@ bool Contenidor::demanaLlistaContenidors(){
     }
 }
 
-bool Contenidor::demanaContenidor(QString cnt){
-    QString topic = "demanaContenidor";
+bool Contenidor::demanaContenidorInici(QString cnt){
+    QString topic = "demanaContenidorInici";
     qDebug()<<"demanat";
     if (m_client->publish(topic, cnt.toUtf8()) == -1){
         qDebug()<<"Error de publicació";
@@ -312,7 +305,6 @@ bool Contenidor::subscribe(QString text)
     if (!subscription) {
         qDebug()<<"No Subscribe";
         return false;
-        //QMessageBox::critical(this, QLatin1String("Error"), QLatin1String("Could not subscribe. Is there a valid connection?"));
     }else{
         qDebug()<<"Subscripció correcta";
         return true;
@@ -350,8 +342,6 @@ bool Contenidor::comprovaContenidor(QString ct){
 void Contenidor::setCredentials(QString username, QString password){
     m_client->setPassword(password);
     m_client->setUsername(username);
-
-
 
 }
 
