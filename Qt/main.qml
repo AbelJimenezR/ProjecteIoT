@@ -53,6 +53,12 @@ ApplicationWindow {
 
         id: myStackView
         anchors.fill: parent
+        Keys.onPressed: {
+            if (event.key == Qt.Key_Back) {
+                myStackView.pop()
+                event.accepted = true
+            }
+        }
         initialItem: Component {
 
             id: cinqueForm
