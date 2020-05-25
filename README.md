@@ -5,6 +5,7 @@ La comunicació es realitza a través de dispositus LoPy [PyCom](https://www.pyc
 
 
 * [Qt](/Qt)
-* [LoPy](/LopY)
+* [LoPy](/LoPy)
+* [LoPy nano-gateway](/LoPy)
 * [Node Red](/NodeRed)
 * [TTGO](/ttgo)
