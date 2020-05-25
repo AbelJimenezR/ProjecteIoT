@@ -1,0 +1,125 @@
+[
+    {
+        "id": "eb04c542.afa408",
+        "type": "mqtt in",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "topic": "demanaContenidorInici",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "7005ba8f.b12864",
+        "x": 340,
+        "y": 580,
+        "wires": [
+            [
+                "59a05c75.6ade54"
+            ]
+        ]
+    },
+    {
+        "id": "97fb97cc.8f0c78",
+        "type": "influxdb in",
+        "z": "715cc868.2c8f08",
+        "influxdb": "8a198f34.1c863",
+        "name": "consulta",
+        "query": "msg.query",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "x": 800,
+        "y": 580,
+        "wires": [
+            [
+                "efe37476.43b308",
+                "c6164e8d.cf277"
+            ]
+        ]
+    },
+    {
+        "id": "efe37476.43b308",
+        "type": "debug",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1010,
+        "y": 540,
+        "wires": []
+    },
+    {
+        "id": "59a05c75.6ade54",
+        "type": "function",
+        "z": "715cc868.2c8f08",
+        "name": "Prepara Consulta",
+        "func": "msg.query=\"select * from contenidor where id='\"+msg.payload+\"' order by time desc limit 1\" \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 570,
+        "y": 580,
+        "wires": [
+            [
+                "97fb97cc.8f0c78"
+            ]
+        ]
+    },
+    {
+        "id": "6408f234.c4656c",
+        "type": "comment",
+        "z": "715cc868.2c8f08",
+        "name": "Consulta a InfluxDB per obtenir un contenidor",
+        "info": "",
+        "x": 610,
+        "y": 500,
+        "wires": []
+    },
+    {
+        "id": "c6164e8d.cf277",
+        "type": "mqtt out",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "topic": "repContenidorInici",
+        "qos": "",
+        "retain": "",
+        "broker": "7005ba8f.b12864",
+        "x": 1030,
+        "y": 620,
+        "wires": []
+    },
+    {
+        "id": "7005ba8f.b12864",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "gustavo.local",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "8a198f34.1c863",
+        "type": "influxdb",
+        "z": "",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "contenidors",
+        "name": "",
+        "usetls": false,
+        "tls": ""
+    }
+]

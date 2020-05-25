@@ -1,0 +1,125 @@
+[
+    {
+        "id": "f2703c4f.c2028",
+        "type": "influxdb in",
+        "z": "715cc868.2c8f08",
+        "influxdb": "8a198f34.1c863",
+        "name": "consulta",
+        "query": "select distinct(id) from contenidor ",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "x": 620,
+        "y": 360,
+        "wires": [
+            [
+                "e120980c.bd8ac8",
+                "9e5463dd.9b368"
+            ]
+        ]
+    },
+    {
+        "id": "e120980c.bd8ac8",
+        "type": "debug",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "payload",
+        "targetType": "msg",
+        "x": 910,
+        "y": 320,
+        "wires": []
+    },
+    {
+        "id": "7d61dbe0.9341a4",
+        "type": "mqtt in",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "topic": "demanaInici",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "7005ba8f.b12864",
+        "x": 290,
+        "y": 400,
+        "wires": [
+            [
+                "74d4e317.c080ac",
+                "f2703c4f.c2028"
+            ]
+        ]
+    },
+    {
+        "id": "9e5463dd.9b368",
+        "type": "mqtt out",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "topic": "repContenidors",
+        "qos": "",
+        "retain": "",
+        "broker": "7005ba8f.b12864",
+        "x": 920,
+        "y": 380,
+        "wires": []
+    },
+    {
+        "id": "74d4e317.c080ac",
+        "type": "debug",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "active": false,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 490,
+        "y": 440,
+        "wires": []
+    },
+    {
+        "id": "a47e6be2.adba08",
+        "type": "comment",
+        "z": "715cc868.2c8f08",
+        "name": "Consulta a InfluxDB per obtenir la llista inicial de contenidors",
+        "info": "",
+        "x": 660,
+        "y": 260,
+        "wires": []
+    },
+    {
+        "id": "8a198f34.1c863",
+        "type": "influxdb",
+        "z": "",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "contenidors",
+        "name": "",
+        "usetls": false,
+        "tls": ""
+    },
+    {
+        "id": "7005ba8f.b12864",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "gustavo.local",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    }
+]

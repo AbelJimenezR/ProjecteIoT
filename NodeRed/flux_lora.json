@@ -1,0 +1,559 @@
+[
+    {
+        "id": "825de0ad.75e5e",
+        "type": "comment",
+        "z": "715cc868.2c8f08",
+        "name": "Lora",
+        "info": "",
+        "x": 790,
+        "y": 1000,
+        "wires": []
+    },
+    {
+        "id": "d6b89a86.c03238",
+        "type": "mqtt in",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "topic": "projecte/devices/#",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "3625ce2e.ac7d92",
+        "x": 110,
+        "y": 1240,
+        "wires": [
+            [
+                "a3013145.1a355"
+            ]
+        ]
+    },
+    {
+        "id": "a3013145.1a355",
+        "type": "json",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 290,
+        "y": 1240,
+        "wires": [
+            [
+                "308f93d5.cbee3c",
+                "5498e48b.b80d0c"
+            ]
+        ]
+    },
+    {
+        "id": "112241f5.09c30e",
+        "type": "inject",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "topic": "",
+        "payload": "{\"app_id\":\"projecte\",\"dev_id\":\"CT001\",\"hardware_serial\":\"00660BBD567CAEB5\",\"port\":1,\"counter\":0,\"payload_raw\":\"oLsNQHcbAAAA+wA=\",\"metadata\":{\"time\":\"2020-05-12T15:23:10.373007331Z\",\"frequency\":867.9,\"modulation\":\"LORA\",\"data_rate\":\"SF12BW125\",\"airtime\":1318912000,\"coding_rate\":\"4/5\",\"gateways\":[{\"gtw_id\":\"eui-0000024b0b030c61\",\"timestamp\":2877502852,\"time\":\"2020-05-12T15:23:09.499572Z\",\"channel\":4,\"rssi\":-114,\"snr\":-10.5,\"rf_chain\":0,\"latitude\":41.38084,\"longitude\":2.14109,\"altitude\":92}]}}",
+        "payloadType": "json",
+        "repeat": "",
+        "crontab": "",
+        "once": false,
+        "onceDelay": 0.1,
+        "x": 150,
+        "y": 1420,
+        "wires": [
+            [
+                "a3013145.1a355"
+            ]
+        ]
+    },
+    {
+        "id": "308f93d5.cbee3c",
+        "type": "function",
+        "z": "715cc868.2c8f08",
+        "name": "Repartidor",
+        "func": "var keys = Object.keys(msg.payload);\n\nvar msgs = keys.map(function(key) {\n    return { topic: key, payload: msg.payload[key]};\n        \n    })\nreturn [msgs];",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 450,
+        "y": 1240,
+        "wires": [
+            [
+                "a86d53f1.bef53"
+            ]
+        ]
+    },
+    {
+        "id": "a86d53f1.bef53",
+        "type": "switch",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "payload_raw",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "metadata",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "dev_id",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 3,
+        "x": 610,
+        "y": 1240,
+        "wires": [
+            [
+                "374fe677.cac6ea"
+            ],
+            [
+                "2545b9fc.b95c66"
+            ],
+            [
+                "8c59ca65.557d08"
+            ]
+        ]
+    },
+    {
+        "id": "374fe677.cac6ea",
+        "type": "base64",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "action": "",
+        "property": "payload",
+        "x": 780,
+        "y": 1180,
+        "wires": [
+            [
+                "24783087.af5fc"
+            ]
+        ]
+    },
+    {
+        "id": "24783087.af5fc",
+        "type": "function",
+        "z": "715cc868.2c8f08",
+        "name": "Temp HEX -> String",
+        "func": "var decoded = {};\n  var str = '';\n  var length = 0;\n  var bytes = msg.payload\n  for (var i = 0; i < bytes.length-1; i += 1)\n    str += (bytes[i] + ',') ;\n    length = i;\n  str += bytes[length];\n\n \n  decoded.latitude = (parseInt(bytes[0] + (bytes[1] << 8) + (bytes[2] << 16 )) / 10000) - 90;\n  decoded.latitude = (Math.round(decoded.latitude * 1000000) / 1000000).toString();\n  decoded.longitude = (parseInt(bytes[3] + (bytes[4] << 8) + (bytes[5] << 16 )) / 10000) - 180;\n  decoded.longitude = (Math.round(decoded.longitude * 1000000) / 1000000).toString();\n  decoded.temperature = ((bytes[9]+(bytes[10]<<8) ) / 10).toString();\n\nmsg.topic=\"ubicacio\"\nmsg.payload= decoded\n\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 950,
+        "y": 1180,
+        "wires": [
+            [
+                "7048b2df.91497c",
+                "8c94215c.518db"
+            ]
+        ]
+    },
+    {
+        "id": "2545b9fc.b95c66",
+        "type": "function",
+        "z": "715cc868.2c8f08",
+        "name": "Repartidor Metadades",
+        "func": "var keys = Object.keys(msg.payload);\n\nvar msgs = keys.map(function(key) {\n    return { topic: key, payload: msg.payload[key]};\n        \n    })\nreturn [msgs];\n\n",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 800,
+        "y": 1240,
+        "wires": [
+            [
+                "4908f804.43ca68"
+            ]
+        ]
+    },
+    {
+        "id": "4908f804.43ca68",
+        "type": "switch",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "gateways",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 1,
+        "x": 970,
+        "y": 1240,
+        "wires": [
+            [
+                "54594152.21f78"
+            ]
+        ]
+    },
+    {
+        "id": "54594152.21f78",
+        "type": "function",
+        "z": "715cc868.2c8f08",
+        "name": "Topic time",
+        "func": "msg.topic=\"time\"\nmsg.payload=msg.payload[0][\"time\"].toString()\n\nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 1120,
+        "y": 1240,
+        "wires": [
+            [
+                "30a179a9.83b546"
+            ]
+        ]
+    },
+    {
+        "id": "30a179a9.83b546",
+        "type": "join",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "7",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1370,
+        "y": 1300,
+        "wires": [
+            [
+                "6c7a6e9a.d37aa",
+                "6d9ed29a.b9637c"
+            ]
+        ]
+    },
+    {
+        "id": "8c59ca65.557d08",
+        "type": "function",
+        "z": "715cc868.2c8f08",
+        "name": "Topic Id",
+        "func": "msg.topic=\"id\"\nmsg.payload=msg.payload.toUpperCase()\nreturn msg",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 780,
+        "y": 1300,
+        "wires": [
+            [
+                "30a179a9.83b546",
+                "52847c8.5c9b984"
+            ]
+        ]
+    },
+    {
+        "id": "6d9ed29a.b9637c",
+        "type": "mqtt out",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "topic": "repContenidor",
+        "qos": "",
+        "retain": "",
+        "broker": "7005ba8f.b12864",
+        "x": 1560,
+        "y": 1180,
+        "wires": []
+    },
+    {
+        "id": "6c7a6e9a.d37aa",
+        "type": "debug",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1530,
+        "y": 1300,
+        "wires": []
+    },
+    {
+        "id": "7048b2df.91497c",
+        "type": "split",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "topic",
+        "x": 1130,
+        "y": 1180,
+        "wires": [
+            [
+                "30a179a9.83b546",
+                "52847c8.5c9b984"
+            ]
+        ]
+    },
+    {
+        "id": "52847c8.5c9b984",
+        "type": "join",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "mode": "custom",
+        "build": "object",
+        "property": "payload",
+        "propertyType": "msg",
+        "key": "topic",
+        "joiner": "\\n",
+        "joinerType": "str",
+        "accumulate": false,
+        "timeout": "",
+        "count": "6",
+        "reduceRight": false,
+        "reduceExp": "",
+        "reduceInit": "",
+        "reduceInitType": "",
+        "reduceFixup": "",
+        "x": 1290,
+        "y": 1560,
+        "wires": [
+            [
+                "acce0be2.d256e8",
+                "cd294a89.f35118"
+            ]
+        ]
+    },
+    {
+        "id": "acce0be2.d256e8",
+        "type": "debug",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1510,
+        "y": 1520,
+        "wires": []
+    },
+    {
+        "id": "cd294a89.f35118",
+        "type": "influxdb out",
+        "z": "715cc868.2c8f08",
+        "influxdb": "8a198f34.1c863",
+        "name": "",
+        "measurement": "contenidor",
+        "precision": "",
+        "retentionPolicy": "",
+        "x": 1590,
+        "y": 1600,
+        "wires": []
+    },
+    {
+        "id": "d10f2a80.6f8b38",
+        "type": "influxdb in",
+        "z": "715cc868.2c8f08",
+        "influxdb": "8a198f34.1c863",
+        "name": "consulta",
+        "query": "msg.query",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "x": 660,
+        "y": 1560,
+        "wires": [
+            [
+                "289c776d.6c1328"
+            ]
+        ]
+    },
+    {
+        "id": "5498e48b.b80d0c",
+        "type": "function",
+        "z": "715cc868.2c8f08",
+        "name": "Prepara Consulta",
+        "func": "msg.query=\"select transport,product from contenidor where id='\"+msg.payload[\"dev_id\"]\n.toUpperCase()+\"' order by time desc limit 1\" \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 490,
+        "y": 1560,
+        "wires": [
+            [
+                "d10f2a80.6f8b38"
+            ]
+        ]
+    },
+    {
+        "id": "d164f8a0.137c98",
+        "type": "switch",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "property": "topic",
+        "propertyType": "msg",
+        "rules": [
+            {
+                "t": "eq",
+                "v": "product",
+                "vt": "str"
+            },
+            {
+                "t": "eq",
+                "v": "transport",
+                "vt": "str"
+            }
+        ],
+        "checkall": "true",
+        "repair": false,
+        "outputs": 2,
+        "x": 1050,
+        "y": 1560,
+        "wires": [
+            [
+                "52847c8.5c9b984",
+                "30a179a9.83b546"
+            ],
+            [
+                "52847c8.5c9b984",
+                "30a179a9.83b546"
+            ]
+        ]
+    },
+    {
+        "id": "289c776d.6c1328",
+        "type": "split",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "topic",
+        "x": 790,
+        "y": 1560,
+        "wires": [
+            [
+                "49186829.014198"
+            ]
+        ]
+    },
+    {
+        "id": "49186829.014198",
+        "type": "split",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "splt": "\\n",
+        "spltType": "str",
+        "arraySplt": 1,
+        "arraySpltType": "len",
+        "stream": false,
+        "addname": "topic",
+        "x": 910,
+        "y": 1560,
+        "wires": [
+            [
+                "d164f8a0.137c98"
+            ]
+        ]
+    },
+    {
+        "id": "914a5e3a.65c4",
+        "type": "comment",
+        "z": "715cc868.2c8f08",
+        "name": "1",
+        "info": "# ",
+        "x": 790,
+        "y": 1100,
+        "wires": []
+    },
+    {
+        "id": "56c5b246.1e9f3c",
+        "type": "comment",
+        "z": "715cc868.2c8f08",
+        "name": "2",
+        "info": "",
+        "x": 790,
+        "y": 1480,
+        "wires": []
+    },
+    {
+        "id": "8c94215c.518db",
+        "type": "debug",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1160,
+        "y": 1120,
+        "wires": []
+    },
+    {
+        "id": "3625ce2e.ac7d92",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "eu.thethings.network",
+        "port": "1883",
+        "tls": "",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": true,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "7005ba8f.b12864",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "gustavo.local",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "8a198f34.1c863",
+        "type": "influxdb",
+        "z": "",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "contenidors",
+        "name": "",
+        "usetls": false,
+        "tls": ""
+    }
+]

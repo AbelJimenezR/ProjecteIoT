@@ -1,0 +1,141 @@
+[
+    {
+        "id": "1c0b1cec.b91f43",
+        "type": "mqtt in",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "topic": "demanaContenidorHistoric",
+        "qos": "2",
+        "datatype": "auto",
+        "broker": "7005ba8f.b12864",
+        "x": 170,
+        "y": 880,
+        "wires": [
+            [
+                "b77f2132.145ca"
+            ]
+        ]
+    },
+    {
+        "id": "b1a2672.30b3498",
+        "type": "influxdb in",
+        "z": "715cc868.2c8f08",
+        "influxdb": "8a198f34.1c863",
+        "name": "consulta",
+        "query": "msg.query",
+        "rawOutput": false,
+        "precision": "",
+        "retentionPolicy": "",
+        "x": 920,
+        "y": 880,
+        "wires": [
+            [
+                "9d536dfc.ceb67",
+                "2b478279.821f4e"
+            ]
+        ]
+    },
+    {
+        "id": "2b478279.821f4e",
+        "type": "debug",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "active": true,
+        "tosidebar": true,
+        "console": false,
+        "tostatus": false,
+        "complete": "false",
+        "x": 1170,
+        "y": 840,
+        "wires": []
+    },
+    {
+        "id": "4822dad1.b6bb14",
+        "type": "function",
+        "z": "715cc868.2c8f08",
+        "name": "Prepara Consulta",
+        "func": "msg.query=\"select * from contenidor where id='\"+msg.payload[\"id\"]+\"'and transport='\"+msg.payload[\"transport\"]+\"'\" \nreturn msg;",
+        "outputs": 1,
+        "noerr": 0,
+        "x": 690,
+        "y": 880,
+        "wires": [
+            [
+                "b1a2672.30b3498"
+            ]
+        ]
+    },
+    {
+        "id": "9d536dfc.ceb67",
+        "type": "mqtt out",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "topic": "repContenidorHistoric",
+        "qos": "",
+        "retain": "",
+        "broker": "7005ba8f.b12864",
+        "x": 1200,
+        "y": 920,
+        "wires": []
+    },
+    {
+        "id": "b2c9b6cf.be0d38",
+        "type": "comment",
+        "z": "715cc868.2c8f08",
+        "name": "Consulta a InfluxDB per obtenir històric contenidor",
+        "info": "",
+        "x": 610,
+        "y": 760,
+        "wires": []
+    },
+    {
+        "id": "b77f2132.145ca",
+        "type": "json",
+        "z": "715cc868.2c8f08",
+        "name": "",
+        "property": "payload",
+        "action": "obj",
+        "pretty": false,
+        "x": 450,
+        "y": 880,
+        "wires": [
+            [
+                "4822dad1.b6bb14"
+            ]
+        ]
+    },
+    {
+        "id": "7005ba8f.b12864",
+        "type": "mqtt-broker",
+        "z": "",
+        "name": "",
+        "broker": "gustavo.local",
+        "port": "1883",
+        "clientid": "",
+        "usetls": false,
+        "compatmode": false,
+        "keepalive": "60",
+        "cleansession": true,
+        "birthTopic": "",
+        "birthQos": "0",
+        "birthPayload": "",
+        "closeTopic": "",
+        "closeQos": "0",
+        "closePayload": "",
+        "willTopic": "",
+        "willQos": "0",
+        "willPayload": ""
+    },
+    {
+        "id": "8a198f34.1c863",
+        "type": "influxdb",
+        "z": "",
+        "hostname": "127.0.0.1",
+        "port": "8086",
+        "protocol": "http",
+        "database": "contenidors",
+        "name": "",
+        "usetls": false,
+        "tls": ""
+    }
+]
