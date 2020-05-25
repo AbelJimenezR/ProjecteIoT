@@ -87,5 +87,5 @@ while True:
             s.send(gps_array)
             s.settimeout(3.0) # configure a timeout value of 3 seconds
             
-        time.sleep(10)
+        time.sleep(180)
 

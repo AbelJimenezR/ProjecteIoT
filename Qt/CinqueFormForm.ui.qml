@@ -66,6 +66,7 @@ Item {
             y: 263
             anchors.horizontalCenterOffset: 0
             anchors.horizontalCenter: parent.horizontalCenter
+            echoMode: TextInput.Password
         }
     }
 }

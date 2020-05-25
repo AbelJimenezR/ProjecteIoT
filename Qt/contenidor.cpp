@@ -11,7 +11,7 @@ Contenidor::Contenidor(QObject *parent) :
 
 {
     m_client = new QMqttClient(this);
-    m_client->setHostname("192.168.1.34");
+    m_client->setHostname("broker.hivemq.com");
     m_client->setPort(1883);
 
 
@@ -50,6 +50,11 @@ Contenidor::Contenidor(QObject *parent) :
                 setData(temp["time"].toString());
                 setIdTransport(temp["transport"].toString());
                 emit listModelChange();
+                m_listModelContenidors.append(temp["latitude"].toString()+","+temp["longitude"].toString()+
+                        ","+temp["temperature"].toString()+","+temp["id"].toString()+","+temp["transport"].toString()+
+                        ","+temp["product"].toString()+","+temp["time"].toString());
+                emit listModelContenidorsChange();
+
             }
         }
 
@@ -96,6 +101,7 @@ void Contenidor::afegirContenidor(QString idCont,QString prod)
 
     m_listModel.append(idCont);
     emit listModelChange();
+    qDebug()<<"hola";
 }
 
 bool Contenidor::editaContenidor(QString idCont,QString prod,QString temp, QString lat, QString lon,QString transport)
@@ -314,7 +320,7 @@ bool Contenidor::subscribe(QString text)
 
 void Contenidor::unsubscribe(){
 
-    m_client->disconnectFromHost();
+    //m_client->disconnectFromHost();
 
 }
 
