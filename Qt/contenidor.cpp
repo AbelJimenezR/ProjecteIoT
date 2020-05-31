@@ -63,9 +63,11 @@ Contenidor::Contenidor(QObject *parent) :
             foreach (const QJsonValue & value, jArray) {
                 QJsonObject obj = value.toObject();
                 QJsonDocument doc(obj);
+                if(obj["latitude"].toString()!=""){
                 m_listModelContenidors.append(obj["latitude"].toString()+","+obj["longitude"].toString()+
                         ","+obj["temperature"].toString()+","+obj["id"].toString()+","+obj["transport"].toString()+
                         ","+obj["product"].toString()+","+obj["time"].toString());
+                }
             }
 
             emit listModelContenidorsChange();
